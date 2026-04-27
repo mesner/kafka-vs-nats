@@ -1,0 +1,9 @@
+[project]
+name = "kafka-vs-nats"
+version = "0.1.0"
+description = "Kafka vs NATS/JetStream performance and feature benchmark"
+requires-python = ">=3.14"
+dependencies = [
+    "confluent-kafka>=2.14.0",
+    "nats-py>=2.14.0",
+]
