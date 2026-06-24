@@ -39,6 +39,17 @@ uv run runner.py
 
 Kafka and NATS-server are started before the benchmarks and stopped when they finish. No manual service management needed.
 
+## How each scenario runs
+
+`runner.py` runs the same lifecycle for every scenario on both systems:
+
+1. **Drop + create** — deletes any existing Kafka topic or NATS stream and creates a fresh one. Topic/stream lifecycle is managed entirely through the Python clients; no manual CLI setup is needed.
+2. **Produce & consume** — for burst scenarios, producer and consumer run concurrently. For batch drain, all messages are written first, then the consumer is started cold and drain time is measured.
+3. **Record** — each received message is timestamped; wall-clock elapsed time, p50/p99 latency, msg/s, and MB/s are derived from the recorded events.
+4. **Teardown** — topic/stream is deleted.
+
+After all scenarios finish, results are printed as console tables and written to `results/run_YYYYMMDD_HHMMSS.json`.
+
 ## Tuning
 
 Edit `config.py` to change message counts, rates, or producer settings:
